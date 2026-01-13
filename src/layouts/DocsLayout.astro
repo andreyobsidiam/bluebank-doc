@@ -22,10 +22,12 @@ const pageDescription = frontmatter?.description || description;
 <BaseLayout title={pageTitle} description={pageDescription}>
   <Sidebar />
 
-  <div class="flex-1 flex flex-col min-h-screen ml-72">
+  <div
+    class="flex-1 flex flex-col min-h-screen lg:ml-72 transition-all duration-300"
+  >
     <Header title={pageTitle} />
 
-    <main class="flex-1 px-8 py-6 overflow-y-auto">
+    <main class="flex-1 px-4 sm:px-6 lg:px-8 py-6 overflow-y-auto">
       <article class="max-w-4xl mx-auto">
         <div class="prose-docs">
           <slot />

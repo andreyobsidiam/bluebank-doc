@@ -71,14 +71,42 @@ const sections = [
 ];
 ---
 
-<aside
-  class="fixed left-0 top-0 bottom-0 w-72 bg-slate-900/80 backdrop-blur-xl border-r border-slate-700/50 flex flex-col z-50"
+<!-- Overlay / Backdrop -->
+<div
+  id="sidebar-overlay"
+  class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity duration-300 opacity-0"
 >
-  <!-- Logo -->
-  <div class="p-6 border-b border-slate-700/50">
+</div>
+
+<aside
+  id="sidebar"
+  class="fixed left-0 top-0 bottom-0 w-72 bg-slate-900/80 backdrop-blur-xl border-r border-slate-700/50 flex flex-col z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out"
+>
+  <!-- Logo & Close Button -->
+  <div
+    class="p-6 border-b border-slate-700/50 flex items-center justify-between"
+  >
     <a href="/" class="flex items-center gap-3 group">
       <img src="/logo_blue.png" alt="Blue Bank Logo" class="h-10 w-auto" />
     </a>
+    <button
+      id="close-sidebar"
+      class="lg:hidden p-2 text-gray-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+      aria-label="Cerrar menú"
+    >
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
   </div>
 
   <!-- Navigation -->
@@ -204,6 +232,34 @@ const sections = [
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebar-overlay");
+    const closeBtn = document.getElementById("close-sidebar");
+    const openBtn = document.getElementById("open-sidebar"); // This will be in Header.astro
+
+    const toggleSidebar = (show: boolean) => {
+      if (show) {
+        sidebar?.classList.remove("-translate-x-full");
+        overlay?.classList.remove("hidden");
+        setTimeout(() => overlay?.classList.add("opacity-100"), 10);
+        document.body.style.overflow = "hidden";
+      } else {
+        sidebar?.classList.add("-translate-x-full");
+        overlay?.classList.remove("opacity-100");
+        setTimeout(() => overlay?.classList.add("hidden"), 300);
+        document.body.style.overflow = "";
+      }
+    };
+
+    openBtn?.addEventListener("click", () => toggleSidebar(true));
+    closeBtn?.addEventListener("click", () => toggleSidebar(false));
+    overlay?.addEventListener("click", () => toggleSidebar(false));
+
+    // Handle ESC key
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") toggleSidebar(false);
+    });
+
     const buttons = document.querySelectorAll(".collapsible-btn");
     const storageKey = "bluebank-docs-sections";
 

@@ -9,12 +9,31 @@ const { title } = Astro.props;
 <header
   class="sticky top-0 z-40 border-b border-slate-800 bg-slate-950/80 backdrop-blur-xl"
 >
-  <div class="px-8 py-4 flex items-center justify-between">
+  <div class="px-6 py-4 flex items-center justify-between">
     <div class="flex items-center gap-4">
+      <button
+        id="open-sidebar"
+        class="lg:hidden p-2 -ml-2 text-gray-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+        aria-label="Abrir menú"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+
       <nav class="flex items-center gap-2 text-sm text-gray-400">
         <a href="/" class="hover:text-white transition-colors">Docs</a>
         <span>/</span>
-        <span class="text-white font-medium">{title}</span>
+        <span class="text-white font-medium line-clamp-1">{title}</span>
       </nav>
     </div>
 
