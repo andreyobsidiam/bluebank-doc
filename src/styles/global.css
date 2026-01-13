@@ -1,9 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 @layer base {
   html {
@@ -62,6 +61,30 @@
            prose-blockquote:border-bluebank-500 prose-blockquote:bg-slate-900/50 prose-blockquote:py-1 prose-blockquote:rounded-r-lg
            prose-ul:text-gray-300 prose-li:marker:text-bluebank-500
            prose-img:rounded-xl prose-img:shadow-2xl;
+  }
+
+  /* Shiki code block styles */
+  .prose-docs pre {
+    @apply bg-slate-900/80 backdrop-blur border border-slate-700/50 rounded-xl overflow-x-auto;
+  }
+
+  .prose-docs pre code {
+    @apply bg-transparent p-0 text-sm font-mono;
+    background: transparent !important;
+  }
+
+  /* Fix for Shiki line highlighting */
+  .prose-docs pre code span {
+    background: transparent !important;
+  }
+
+  .prose-docs .astro-code {
+    @apply bg-slate-900/80 border border-slate-700/50 rounded-xl p-4;
+    background-color: rgb(15 23 42 / 0.8) !important;
+  }
+
+  .prose-docs .astro-code code {
+    background: transparent !important;
   }
 }
 

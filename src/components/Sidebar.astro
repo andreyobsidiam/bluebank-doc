@@ -8,16 +8,61 @@ const sortedDocs = docs.sort(
 
 const currentPath = Astro.url.pathname;
 
+// Detect current section from path
+const getCurrentSection = () => {
+  if (currentPath.includes("/docs/mobile/")) return "mobile";
+  if (currentPath.includes("/docs/web/")) return "web";
+  if (currentPath.includes("/docs/api/")) return "api";
+  return null;
+};
+const currentSection = getCurrentSection();
+
+// Group docs by section
+const docsBySection = {
+  mobile: sortedDocs.filter((d) => d.data.section === "mobile"),
+  web: sortedDocs.filter((d) => d.data.section === "web"),
+  api: sortedDocs.filter((d) => d.data.section === "api" || !d.data.section),
+};
+
 const sections = [
   {
+    id: "home",
     title: "Inicio",
     icon: "🏠",
     links: [{ title: "Bienvenido", slug: "", icon: "👋" }],
+    collapsible: false,
   },
   {
-    title: "Documentación",
-    icon: "📚",
-    links: sortedDocs.map((doc) => ({
+    id: "mobile",
+    title: "Mobile",
+    icon: "📱",
+    color: "pink",
+    collapsible: true,
+    links: docsBySection.mobile.map((doc) => ({
+      title: doc.data.title,
+      slug: doc.slug,
+      icon: doc.data.icon || "📄",
+    })),
+  },
+  {
+    id: "web",
+    title: "Web",
+    icon: "🌐",
+    color: "cyan",
+    collapsible: true,
+    links: docsBySection.web.map((doc) => ({
+      title: doc.data.title,
+      slug: doc.slug,
+      icon: doc.data.icon || "📄",
+    })),
+  },
+  {
+    id: "api",
+    title: "API (Supabase)",
+    icon: "⚡",
+    color: "emerald",
+    collapsible: true,
+    links: docsBySection.api.map((doc) => ({
       title: doc.data.title,
       slug: doc.slug,
       icon: doc.data.icon || "📄",
@@ -32,19 +77,7 @@ const sections = [
   <!-- Logo -->
   <div class="p-6 border-b border-slate-700/50">
     <a href="/" class="flex items-center gap-3 group">
-      <div
-        class="w-10 h-10 rounded-xl bg-gradient-to-br from-bluebank-500 to-bluebank-700 flex items-center justify-center shadow-lg glow-sm group-hover:glow transition-all duration-300"
-      >
-        <span class="text-white text-xl font-bold">B</span>
-      </div>
-      <div>
-        <h1
-          class="font-bold text-white text-lg group-hover:text-bluebank-400 transition-colors"
-        >
-          BlueBank
-        </h1>
-        <p class="text-xs text-gray-500">Documentation</p>
-      </div>
+      <img src="/logo_blue.png" alt="Blue Bank Logo" class="h-10 w-auto" />
     </a>
   </div>
 
@@ -52,12 +85,52 @@ const sections = [
   <nav class="flex-1 overflow-y-auto py-6 px-4">
     {
       sections.map((section) => (
-        <div class="mb-6">
-          <h3 class="flex items-center gap-2 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
-            <span>{section.icon}</span>
-            {section.title}
-          </h3>
-          <ul class="space-y-1">
+        <div class="mb-4">
+          {section.collapsible ? (
+            <button
+              class:list={[
+                "collapsible-btn w-full flex items-center justify-between gap-2 px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-colors rounded-lg",
+                currentSection === section.id
+                  ? "section-active"
+                  : "text-gray-400 hover:text-white hover:bg-slate-800/50",
+              ]}
+              data-section={section.id}
+              data-color={section.color}
+            >
+              <span class="flex items-center gap-2">
+                <span>{section.icon}</span>
+                {section.title}
+              </span>
+              <svg
+                class="chevron w-4 h-4 transition-transform duration-200"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+          ) : (
+            <h3 class="flex items-center gap-2 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+              <span>{section.icon}</span>
+              {section.title}
+            </h3>
+          )}
+          <ul
+            class:list={[
+              "space-y-1 mt-2 overflow-hidden transition-all duration-300",
+              {
+                "collapsible-content": section.collapsible,
+                "max-h-0": section.collapsible,
+              },
+            ]}
+            data-section-content={section.id}
+          >
             {section.links.map((link) => {
               const href = link.slug === "" ? "/" : `/docs/${link.slug}`;
               const isActive =
@@ -70,7 +143,7 @@ const sections = [
                     class:list={["sidebar-link", { active: isActive }]}
                   >
                     <span class="text-lg">{link.icon}</span>
-                    <span class="font-medium">{link.title}</span>
+                    <span class="font-medium text-sm">{link.title}</span>
                   </a>
                 </li>
               );
@@ -84,8 +157,101 @@ const sections = [
   <!-- Footer -->
   <div class="p-4 border-t border-slate-700/50">
     <div class="glass-card p-4 text-center">
-      <p class="text-xs text-gray-400">Backend Version</p>
+      <p class="text-xs text-gray-400">Blue Bank Docs</p>
       <p class="text-sm font-semibold text-bluebank-400">v1.0.0</p>
     </div>
   </div>
 </aside>
+
+<style>
+  .collapsible-content {
+    max-height: 0;
+  }
+
+  .collapsible-content.expanded {
+    max-height: 500px;
+  }
+
+  .collapsible-btn .chevron {
+    transform: rotate(-90deg);
+  }
+
+  .collapsible-btn.expanded .chevron {
+    transform: rotate(0deg);
+  }
+
+  /* Active section styles */
+  .section-active {
+    color: white;
+    border-left: 3px solid;
+  }
+
+  .section-active[data-color="pink"] {
+    background-color: rgba(236, 72, 153, 0.2);
+    border-color: rgb(236, 72, 153);
+  }
+
+  .section-active[data-color="cyan"] {
+    background-color: rgba(6, 182, 212, 0.2);
+    border-color: rgb(6, 182, 212);
+  }
+
+  .section-active[data-color="emerald"] {
+    background-color: rgba(16, 185, 129, 0.2);
+    border-color: rgb(16, 185, 129);
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const buttons = document.querySelectorAll(".collapsible-btn");
+    const storageKey = "bluebank-docs-sections";
+
+    // Load saved state from localStorage
+    const savedState = JSON.parse(localStorage.getItem(storageKey) || "{}");
+
+    // Check if current page is in any section and expand that section
+    const currentPath = window.location.pathname;
+
+    buttons.forEach((btn) => {
+      const sectionId = btn.getAttribute("data-section") || "";
+      const content = document.querySelector(
+        `[data-section-content="${sectionId}"]`
+      );
+
+      if (!content) return;
+
+      // Check if current page is in this section
+      const links = content.querySelectorAll("a");
+      let isCurrentSection = false;
+      links.forEach((link) => {
+        if (link.getAttribute("href") === currentPath) {
+          isCurrentSection = true;
+        }
+      });
+
+      // Expand if current section or saved as expanded
+      if (isCurrentSection || savedState[sectionId]) {
+        btn.classList.add("expanded");
+        content.classList.add("expanded");
+        savedState[sectionId] = true;
+      }
+
+      btn.addEventListener("click", () => {
+        const isExpanded = btn.classList.contains("expanded");
+
+        if (isExpanded) {
+          btn.classList.remove("expanded");
+          content.classList.remove("expanded");
+          savedState[sectionId] = false;
+        } else {
+          btn.classList.add("expanded");
+          content.classList.add("expanded");
+          savedState[sectionId] = true;
+        }
+
+        localStorage.setItem(storageKey, JSON.stringify(savedState));
+      });
+    });
+  });
+</script>

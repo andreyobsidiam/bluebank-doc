@@ -37,9 +37,95 @@ const pageDescription = frontmatter?.description || description;
       <div
         class="max-w-4xl mx-auto flex justify-between items-center text-sm text-gray-500"
       >
-        <p>© 2026 BlueBank International. Todos los derechos reservados.</p>
+        <p>© 2026 Blue Bank International. Todos los derechos reservados.</p>
         <p>Documentación v1.0.0</p>
       </div>
     </footer>
   </div>
+
+  <!-- Mermaid.js -->
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: "dark",
+      themeVariables: {
+        primaryColor: "#3b82f6",
+        primaryTextColor: "#fff",
+        primaryBorderColor: "#1e40af",
+        lineColor: "#64748b",
+        secondaryColor: "#1e293b",
+        tertiaryColor: "#0f172a",
+        background: "#0f172a",
+        mainBkg: "#1e293b",
+        nodeBkg: "#1e293b",
+        nodeBorder: "#3b82f6",
+        clusterBkg: "#1e293b",
+        clusterBorder: "#475569",
+        titleColor: "#f1f5f9",
+        edgeLabelBackground: "#1e293b",
+      },
+    });
+
+    // Find all mermaid code blocks (multiple selectors to handle different formats)
+    const selectors = [
+      "pre code.language-mermaid",
+      'pre.astro-code[data-language="mermaid"] code',
+      'pre[data-language="mermaid"] code',
+      ".astro-code code",
+    ];
+
+    document.querySelectorAll("pre").forEach(async (pre) => {
+      const code = pre.querySelector("code");
+      if (!code) return;
+
+      const text = code.textContent || "";
+
+      // Check if it looks like a mermaid diagram
+      const isMermaid =
+        pre.dataset?.language === "mermaid" ||
+        pre.classList.contains("language-mermaid") ||
+        code.classList.contains("language-mermaid") ||
+        text
+          .trim()
+          .match(
+            /^(graph|flowchart|sequenceDiagram|classDiagram|stateDiagram|erDiagram|journey|gantt|pie|quadrantChart|requirementDiagram|gitGraph|mindmap|timeline|sankey|xychart)/
+          );
+
+      if (!isMermaid) return;
+
+      // Create a container for the diagram
+      const container = document.createElement("div");
+      container.className = "mermaid-diagram";
+
+      try {
+        const { svg } = await mermaid.render(
+          "mermaid-" + Math.random().toString(36).substr(2, 9),
+          text
+        );
+        container.innerHTML = svg;
+        pre.replaceWith(container);
+      } catch (e) {
+        console.error("Mermaid render error:", e);
+      }
+    });
+  </script>
+
+  <style is:global>
+    .mermaid-diagram {
+      display: flex;
+      justify-content: center;
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background: rgb(15 23 42 / 0.5);
+      border: 1px solid rgb(51 65 85 / 0.5);
+      border-radius: 0.75rem;
+    }
+
+    .mermaid-diagram svg {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
 </BaseLayout>

@@ -3,6 +3,7 @@ title: "Configuración y Comandos"
 description: "Variables de entorno, comandos de desarrollo y arquitectura del sistema"
 order: 4
 icon: "⚙️"
+section: "api"
 ---
 
 # ⚙️ Configuración
@@ -101,4 +102,4 @@ Servicios Externos (MailerSend, SumSub)
 
 ## 📄 Licencia
 
-© 2026 BlueBank International. Todos los derechos reservados.
+© 2026 Blue Bank International. Todos los derechos reservados.

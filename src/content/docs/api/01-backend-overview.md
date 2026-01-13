@@ -1,22 +1,23 @@
 ---
 title: "Backend Overview"
-description: "Documentación completa del backend de BlueBank International construido sobre Supabase"
+description: "Documentación completa del backend de Blue Bank International construido sobre Supabase"
 order: 1
 icon: "🏦"
+section: "api"
 ---
 
-# 🏦 BlueBank International
+# 🏦 Blue Bank International
 
 ## Backend de Servicios Financieros
 
-Backend completo para la plataforma bancaria BlueBank construido sobre Supabase con Edge Functions en TypeScript/Deno, migraciones PostgreSQL, y scripts de automatización.
+Backend completo para la plataforma bancaria Blue Bank construido sobre Supabase con Edge Functions en TypeScript/Deno, migraciones PostgreSQL, y scripts de automatización.
 
-| Información                 | Detalle                   |
-| :-------------------------- | :------------------------ |
-| 📅 **Última Actualización** | Enero 2026                |
-| 👥 **Equipo**               | BlueBank Development Team |
-| 🌐 **Ambiente**             | Producción / Desarrollo   |
-| 📧 **Contacto**             | dev@bluebank.com          |
+| Información                 | Detalle                    |
+| :-------------------------- | :------------------------- |
+| 📅 **Última Actualización** | Enero 2026                 |
+| 👥 **Equipo**               | Blue Bank Development Team |
+| 🌐 **Ambiente**             | Producción / Desarrollo    |
+| 📧 **Contacto**             | dev@bluebank.com           |
 
 ---
 

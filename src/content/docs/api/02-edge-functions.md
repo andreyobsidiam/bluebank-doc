@@ -1,8 +1,9 @@
 ---
 title: "Edge Functions"
-description: "Documentación de las Edge Functions serverless del backend BlueBank"
+description: "Documentación de las Edge Functions serverless del backend Blue Bank"
 order: 2
 icon: "⚡"
+section: "api"
 ---
 
 # ⚡ Edge Functions

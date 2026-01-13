@@ -5,8 +5,8 @@ export default defineConfig({
   integrations: [tailwind()],
   markdown: {
     shikiConfig: {
-      theme: 'github-dark',
-      wrap: true
+      theme: 'dark-plus',
+      wrap: true,
     }
   }
 });

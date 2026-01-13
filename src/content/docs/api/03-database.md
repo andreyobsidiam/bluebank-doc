@@ -3,6 +3,7 @@ title: "Base de Datos"
 description: "Esquema de base de datos PostgreSQL con migraciones y Row Level Security"
 order: 3
 icon: "🗃️"
+section: "api"
 ---
 
 # 🗃️ Migraciones de Base de Datos
