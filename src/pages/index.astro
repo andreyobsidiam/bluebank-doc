@@ -1,0 +1,161 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Sidebar from "../components/Sidebar.astro";
+import { getCollection } from "astro:content";
+
+const docs = await getCollection("docs");
+const sortedDocs = docs.sort(
+  (a, b) => (a.data.order || 99) - (b.data.order || 99)
+);
+---
+
+<BaseLayout title="Inicio">
+  <Sidebar />
+
+  <div class="flex-1 ml-72">
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden">
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-bluebank-900/50 via-slate-900 to-slate-950"
+      >
+      </div>
+      <div
+        class="absolute inset-0"
+        style="background-image: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);"
+      >
+      </div>
+
+      <div class="relative max-w-4xl mx-auto px-8 py-24 text-center">
+        <div
+          class="inline-flex items-center gap-2 px-4 py-2 bg-bluebank-600/20 border border-bluebank-500/30 rounded-full text-sm text-bluebank-400 mb-8"
+        >
+          <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+          Documentación Actualizada • Enero 2026
+        </div>
+
+        <h1 class="text-5xl md:text-6xl font-bold mb-6">
+          <span class="text-gradient">BlueBank</span>
+          <br />
+          <span class="text-white">Backend Documentation</span>
+        </h1>
+
+        <p class="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
+          Documentación técnica completa para el backend de servicios
+          financieros de BlueBank International. Edge Functions, base de datos
+          PostgreSQL, y más.
+        </p>
+
+        <div class="flex flex-wrap gap-4 justify-center">
+          <a
+            href={docs.length > 0 ? `/docs/${sortedDocs[0].slug}` : "#docs"}
+            class="px-8 py-4 bg-bluebank-600 hover:bg-bluebank-500 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 glow-sm hover:glow"
+          >
+            Comenzar →
+          </a>
+          <a
+            href="https://github.com/bluebank"
+            target="_blank"
+            class="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-xl border border-slate-700 transition-all duration-300"
+          >
+            Ver en GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="border-y border-slate-800 bg-slate-900/30">
+      <div class="max-w-5xl mx-auto px-8 py-12">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div class="text-center">
+            <p class="text-4xl font-bold text-gradient">8</p>
+            <p class="text-gray-400 mt-2">Edge Functions</p>
+          </div>
+          <div class="text-center">
+            <p class="text-4xl font-bold text-gradient">7</p>
+            <p class="text-gray-400 mt-2">Migraciones DB</p>
+          </div>
+          <div class="text-center">
+            <p class="text-4xl font-bold text-gradient">100%</p>
+            <p class="text-gray-400 mt-2">TypeScript</p>
+          </div>
+          <div class="text-center">
+            <p class="text-4xl font-bold text-gradient">RLS</p>
+            <p class="text-gray-400 mt-2">Seguridad</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Docs Grid -->
+    <section class="max-w-5xl mx-auto px-8 py-16" id="docs">
+      <h2 class="text-3xl font-bold text-white mb-2">Documentación</h2>
+      <p class="text-gray-400 mb-10">
+        Explora la documentación técnica del backend
+      </p>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {
+          sortedDocs.map((doc) => (
+            <a
+              href={`/docs/${doc.slug}`}
+              class="glass-card p-6 group hover:border-bluebank-500/50 transition-all duration-300 hover:transform hover:scale-[1.02]"
+            >
+              <div class="text-4xl mb-4">{doc.data.icon}</div>
+              <h3 class="text-lg font-semibold text-white group-hover:text-bluebank-400 transition-colors mb-2">
+                {doc.data.title}
+              </h3>
+              {doc.data.description && (
+                <p class="text-sm text-gray-400 line-clamp-2">
+                  {doc.data.description}
+                </p>
+              )}
+              <div class="mt-4 flex items-center gap-2 text-sm text-bluebank-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                <span>Leer más</span>
+                <span>→</span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="border-t border-slate-800 bg-slate-900/20">
+      <div class="max-w-5xl mx-auto px-8 py-16">
+        <h2 class="text-2xl font-bold text-white text-center mb-12">
+          Stack Tecnológico
+        </h2>
+        <div class="flex flex-wrap justify-center gap-6">
+          {
+            [
+              { name: "Supabase", color: "from-emerald-500 to-emerald-600" },
+              { name: "TypeScript", color: "from-blue-500 to-blue-600" },
+              { name: "Deno", color: "from-gray-500 to-gray-600" },
+              { name: "PostgreSQL", color: "from-indigo-500 to-indigo-600" },
+              {
+                name: "Edge Functions",
+                color: "from-orange-500 to-orange-600",
+              },
+            ].map((tech) => (
+              <div
+                class={`px-6 py-3 rounded-xl bg-gradient-to-r ${tech.color} text-white font-medium shadow-lg`}
+              >
+                {tech.name}
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 px-8 py-8">
+      <div class="max-w-5xl mx-auto text-center">
+        <p class="text-gray-500">
+          © 2026 BlueBank International. Todos los derechos reservados.
+        </p>
+      </div>
+    </footer>
+  </div>
+</BaseLayout>

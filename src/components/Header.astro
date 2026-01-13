@@ -1,0 +1,51 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-slate-800 bg-slate-950/80 backdrop-blur-xl"
+>
+  <div class="px-8 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <nav class="flex items-center gap-2 text-sm text-gray-400">
+        <a href="/" class="hover:text-white transition-colors">Docs</a>
+        <span>/</span>
+        <span class="text-white font-medium">{title}</span>
+      </nav>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <!-- Search -->
+      <div class="relative">
+        <input
+          type="text"
+          placeholder="Buscar documentación..."
+          class="w-64 bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-2 pl-10 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-bluebank-500 focus:ring-1 focus:ring-bluebank-500 transition-all"
+        />
+        <svg
+          class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </div>
+
+      <!-- Version Badge -->
+      <span
+        class="px-3 py-1 bg-bluebank-600/20 border border-bluebank-500/30 rounded-full text-xs font-medium text-bluebank-400"
+      >
+        v1.0.0
+      </span>
+    </div>
+  </div>
+</header>

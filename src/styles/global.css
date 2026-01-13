@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-slate-950 text-gray-100 antialiased;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-slate-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-bluebank-600 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-bluebank-500;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-slate-900/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl;
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-300 
+           hover:text-white hover:bg-bluebank-600/20 transition-all duration-200;
+  }
+
+  .sidebar-link.active {
+    @apply text-white bg-bluebank-600/30 border-l-2 border-bluebank-500;
+  }
+
+  .prose-docs {
+    @apply prose prose-invert max-w-none prose-headings:font-semibold 
+           prose-h1:text-3xl prose-h1:border-b prose-h1:border-slate-700 prose-h1:pb-4
+           prose-h2:text-2xl prose-h2:text-bluebank-400 prose-h2:mt-10
+           prose-h3:text-xl prose-h3:text-gray-200
+           prose-p:text-gray-300 prose-p:leading-relaxed
+           prose-a:text-bluebank-400 prose-a:no-underline hover:prose-a:underline
+           prose-strong:text-white prose-strong:font-semibold
+           prose-code:text-bluebank-300 prose-code:bg-slate-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
+           prose-pre:bg-slate-900 prose-pre:border prose-pre:border-slate-700/50
+           prose-table:border prose-table:border-slate-700
+           prose-th:bg-slate-800 prose-th:text-white prose-th:font-semibold prose-th:px-4 prose-th:py-3
+           prose-td:border-t prose-td:border-slate-700 prose-td:px-4 prose-td:py-3
+           prose-blockquote:border-bluebank-500 prose-blockquote:bg-slate-900/50 prose-blockquote:py-1 prose-blockquote:rounded-r-lg
+           prose-ul:text-gray-300 prose-li:marker:text-bluebank-500
+           prose-img:rounded-xl prose-img:shadow-2xl;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-bluebank-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent;
+  }
+
+  .glow {
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.3);
+  }
+
+  .glow-sm {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+  }
+}

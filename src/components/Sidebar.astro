@@ -1,0 +1,91 @@
+---
+import { getCollection } from "astro:content";
+
+const docs = await getCollection("docs");
+const sortedDocs = docs.sort(
+  (a, b) => (a.data.order || 99) - (b.data.order || 99)
+);
+
+const currentPath = Astro.url.pathname;
+
+const sections = [
+  {
+    title: "Inicio",
+    icon: "🏠",
+    links: [{ title: "Bienvenido", slug: "", icon: "👋" }],
+  },
+  {
+    title: "Documentación",
+    icon: "📚",
+    links: sortedDocs.map((doc) => ({
+      title: doc.data.title,
+      slug: doc.slug,
+      icon: doc.data.icon || "📄",
+    })),
+  },
+];
+---
+
+<aside
+  class="fixed left-0 top-0 bottom-0 w-72 bg-slate-900/80 backdrop-blur-xl border-r border-slate-700/50 flex flex-col z-50"
+>
+  <!-- Logo -->
+  <div class="p-6 border-b border-slate-700/50">
+    <a href="/" class="flex items-center gap-3 group">
+      <div
+        class="w-10 h-10 rounded-xl bg-gradient-to-br from-bluebank-500 to-bluebank-700 flex items-center justify-center shadow-lg glow-sm group-hover:glow transition-all duration-300"
+      >
+        <span class="text-white text-xl font-bold">B</span>
+      </div>
+      <div>
+        <h1
+          class="font-bold text-white text-lg group-hover:text-bluebank-400 transition-colors"
+        >
+          BlueBank
+        </h1>
+        <p class="text-xs text-gray-500">Documentation</p>
+      </div>
+    </a>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="flex-1 overflow-y-auto py-6 px-4">
+    {
+      sections.map((section) => (
+        <div class="mb-6">
+          <h3 class="flex items-center gap-2 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+            <span>{section.icon}</span>
+            {section.title}
+          </h3>
+          <ul class="space-y-1">
+            {section.links.map((link) => {
+              const href = link.slug === "" ? "/" : `/docs/${link.slug}`;
+              const isActive =
+                currentPath === href ||
+                (currentPath === "/" && link.slug === "");
+              return (
+                <li>
+                  <a
+                    href={href}
+                    class:list={["sidebar-link", { active: isActive }]}
+                  >
+                    <span class="text-lg">{link.icon}</span>
+                    <span class="font-medium">{link.title}</span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))
+    }
+  </nav>
+
+  <!-- Footer -->
+  <div class="p-4 border-t border-slate-700/50">
+    <div class="glass-card p-4 text-center">
+      <p class="text-xs text-gray-400">Backend Version</p>
+      <p class="text-sm font-semibold text-bluebank-400">v1.0.0</p>
+    </div>
+  </div>
+</aside>

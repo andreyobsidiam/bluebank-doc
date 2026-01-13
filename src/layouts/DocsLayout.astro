@@ -1,0 +1,45 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Sidebar from "../components/Sidebar.astro";
+import Header from "../components/Header.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  frontmatter?: {
+    title?: string;
+    description?: string;
+    order?: number;
+    icon?: string;
+  };
+}
+
+const { title, description, frontmatter } = Astro.props;
+const pageTitle = frontmatter?.title || title;
+const pageDescription = frontmatter?.description || description;
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <Sidebar />
+
+  <div class="flex-1 flex flex-col min-h-screen ml-72">
+    <Header title={pageTitle} />
+
+    <main class="flex-1 px-8 py-6 overflow-y-auto">
+      <article class="max-w-4xl mx-auto">
+        <div class="prose-docs">
+          <slot />
+        </div>
+      </article>
+    </main>
+
+    <footer class="border-t border-slate-800 px-8 py-4">
+      <div
+        class="max-w-4xl mx-auto flex justify-between items-center text-sm text-gray-500"
+      >
+        <p>© 2026 BlueBank International. Todos los derechos reservados.</p>
+        <p>Documentación v1.0.0</p>
+      </div>
+    </footer>
+  </div>
+</BaseLayout>
